@@ -1,10 +1,20 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/', methods=['GET'])
 def index():
     return jsonify({'message': 'Send a GET request to /submit/<name>/<email>'}), 200
+
+@app.route('/submit', methods=['POST'])
+def submit_post():
+    data = request.get_json()
+    return jsonify({
+        'message': 'Data received',
+        'received': data
+    }), 200
 
 @app.route('/submit/<name>/<email>', methods=['GET'])
 def submit(name, email):
